@@ -1,0 +1,64 @@
+ public MyAdapter(List<ScanResult> items){
+        this.items=items;
+    }
+    //생성자가 아이템들을 나열을 한다.
+
+
+
+    @NonNull
+    @Override
+    public MyAdapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        mcontext = parent.getContext();
+        //mcontext = mcontext.getApplicationContext();
+
+        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.recyclerview_item , parent, false);
+        return new MyViewHolder(itemView);
+    }
+
+
+    @Override
+    public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
+//        ScanResult item=items.get(position);
+        holder.setItem(items.get(position));
+    }
+
+
+
+    //아이템리스트 개수 가져옴
+    @Override
+    public int getItemCount() {
+        return items.size();
+    }
+
+
+    //여기서 동작이 가능한가?
+    //사실상 메인 클래스
+    //inner class
+    public class MyViewHolder extends RecyclerView.ViewHolder {
+        public TextView tvWifiName;
+
+        public Button btncon;
+        public Button btndiscon;
+
+        public MyViewHolder(View itemView) {
+
+            super(itemView);
+            tvWifiName=itemView.findViewById(R.id.tv_wifiName);
+
+            /**추가구문**/
+            btncon = itemView.findViewById(R.id.btn_connect);
+            btndiscon = itemView.findViewById(R.id.btn_disconnect);
+
+
+            //itemview는 전체 아이템들을 의미 (리사이클러뷰의 아이템들)
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    int currentpos = getAdapterPosition();
+                    //list배열의 인덱스넘버
+                    ScanResult scanResult = items.get(currentpos);
+                    /**이부분에 동적인 부분을 넣어주기??!**/
+                    Toast.makeText(mcontext,scanResult.SSID,Toast.LENGTH_SHORT).show();
+
+                }
+            });
